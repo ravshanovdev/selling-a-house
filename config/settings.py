@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'uy',
     'accounts',
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'drf_yasg',
+
 ]
 
 REST_FRAMEWORK = {
