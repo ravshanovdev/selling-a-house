@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import CategorySerializer, ScheduleSerializer, SavedScheduleSerializer
+from .serializers import CategorySerializer, ScheduleSerializer, SavedScheduleSerializer, SavedScheduleListSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Schedule
+from .models import Schedule, SavedSchedule
 
 
 class CreateCategoryApiView(APIView):
@@ -18,6 +18,8 @@ class CreateCategoryApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+# views for schedule
 
 class CreateScheduleApiView(APIView):
     permission_classes = [IsAuthenticated]
@@ -94,3 +96,59 @@ class GetAllScheduleApiView(APIView):
 
         except Schedule.DoesNotExist:
             return Response({"error": "Schedule Not Found.!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# views for saved_schedule
+
+class CreateSavedScheduleApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # schedule = Schedule.objects.get(pk=pk)
+
+            serializer = SavedScheduleSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save(user_id=request.user)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Schedule.DoesNotExist:
+            return Response({"error": "Schedule Not Found.!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetSavedScheduleApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+
+            saved_schedule = SavedSchedule.objects.filter(user_id=request.user)
+            serializer = SavedScheduleListSerializer(saved_schedule, many=True)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except SavedSchedule.DoesNotExist:
+            return Response({"error": "SavedSchedule Not Found.!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class DeleteSavedSchedule(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        try:
+            saved_schedule = SavedSchedule.objects.get(pk=pk, user_id=request.user)
+
+            if saved_schedule:
+                saved_schedule.delete()
+                return Response({"message": "Saved_Schedule was Successfully deleted"})
+
+        except SavedSchedule.DoesNotExist:
+            return Response({"error": "Saved_Schedule Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+

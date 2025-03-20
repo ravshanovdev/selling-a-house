@@ -8,7 +8,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'role']
+        fields = ['username', 'email', 'role', 'phone']
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -28,9 +28,18 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 class SavedScheduleSerializer(serializers.ModelSerializer):
     user_id = UserSerializer(read_only=True)
-    category = CategorySerializer()
 
     class Meta:
         model = SavedSchedule
         fields = "__all__"
+
+
+class SavedScheduleListSerializer(serializers.ModelSerializer):
+    user_id = UserSerializer(read_only=True)
+    schedule = ScheduleSerializer(read_only=True)
+
+    class Meta:
+        model = SavedSchedule
+        fields = "__all__"
+
 
