@@ -1,0 +1,14 @@
+# Virtual environment
+venv/
+__pycache__/
+
+# OS fayllari
+.DS_Store
+Thumbs.db
+
+# Log va cache
+*.log
+*.sqlite3
+
+# Secret fayllar
+.env
