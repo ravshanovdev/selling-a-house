@@ -71,6 +71,8 @@ class UpdateScheduleApiView(APIView):
 
 
 class GetScheduleApiView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, pk):
         try:
             schedule = Schedule.objects.get(pk=pk)
