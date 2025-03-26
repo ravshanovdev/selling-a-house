@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import CreateCategoryApiView, CreateScheduleApiView, DeleteScheduleApiView, UpdateScheduleApiView, \
-    GetScheduleApiView, GetAllScheduleApiView, CreateSavedScheduleApiView, GetSavedScheduleApiView, DeleteSavedSchedule
+    GetScheduleApiView, GetAllScheduleApiView, CreateSavedScheduleApiView, GetSavedScheduleApiView, DeleteSavedSchedule, \
+    GetCategoryApiView, GetAllCategoryApiView
 
 
 urlpatterns = [
@@ -13,6 +14,8 @@ urlpatterns = [
     path('create_saved_schedule/', CreateSavedScheduleApiView.as_view(), ),
     path("get_saved_schedule/", GetSavedScheduleApiView.as_view(), ),
     path('delete_saved_schedule/<int:pk>/', DeleteSavedSchedule.as_view(), ),
+    path('get_category_by_id/<int:pk>/', GetCategoryApiView.as_view(), ),
+    path('get_all_category/', GetAllCategoryApiView.as_view(), ),
 
 
 ]
