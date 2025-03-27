@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import Schedule, SavedSchedule, Category
 
-# Register your models here.
+admin.site.register([Schedule, SavedSchedule, Category])

@@ -23,7 +23,6 @@ class GetCategoryApiView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, pk):
-
         category = get_object_or_404(Category, pk=pk)
         serializer = CategorySerializer(category)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -36,6 +35,22 @@ class GetAllCategoryApiView(APIView):
         category = Category.objects.all()
 
         serializer = CategorySerializer(category, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GetScheduleByCategoryIDApiView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        category = Category.objects.get(pk=pk)
+
+        schedule = Schedule.objects.filter(category=category).all()
+
+        if not schedule:
+            return Response({"error": "Schedule Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ScheduleSerializer(schedule, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -169,9 +184,3 @@ class DeleteSavedSchedule(APIView):
 
         except SavedSchedule.DoesNotExist:
             return Response({"error": "Saved_Schedule Not Found"}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
-
-
