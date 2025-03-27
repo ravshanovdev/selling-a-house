@@ -54,3 +54,13 @@ class SavedSchedule(models.Model):
         return f"{self.user_id}-{self.schedule}-{self.saved_at}"
 
 
+class Review(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
+    email = models.EmailField()
+    name = models.CharField(max_length=255)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.schedule
+

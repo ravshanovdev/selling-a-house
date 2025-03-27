@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Schedule, SavedSchedule
+from .models import Category, Schedule, SavedSchedule, Review
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -42,4 +42,19 @@ class SavedScheduleListSerializer(serializers.ModelSerializer):
         model = SavedSchedule
         fields = "__all__"
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user_id = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = "__all__"
+
+
+class ReviewListSerializer(serializers.ModelSerializer):
+    schedule = ScheduleSerializer(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = "__all__"
 

@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import CreateCategoryApiView, CreateScheduleApiView, DeleteScheduleApiView, UpdateScheduleApiView, \
     GetScheduleApiView, GetAllScheduleApiView, CreateSavedScheduleApiView, GetSavedScheduleApiView, DeleteSavedSchedule, \
-    GetCategoryApiView, GetAllCategoryApiView, GetScheduleByCategoryIDApiView
+    GetCategoryApiView, GetAllCategoryApiView, GetScheduleByCategoryIDApiView, CreateReviewApiView, GetReviewApiView
 
 
 urlpatterns = [
@@ -17,6 +17,8 @@ urlpatterns = [
     path('get_category_by_id/<int:pk>/', GetCategoryApiView.as_view(), ),
     path('get_all_category/', GetAllCategoryApiView.as_view(), ),
     path('get_schedule_by_category_id/<int:pk>/', GetScheduleByCategoryIDApiView.as_view(), ),
+    path('create_review/', CreateReviewApiView.as_view(), ),
+    path('get_review/<int:pk>/', GetReviewApiView.as_view(), ),
 
 
 ]
