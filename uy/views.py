@@ -212,3 +212,15 @@ class GetReviewApiView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+class GetAllReviewApiView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        review = Review.objects.all()
+
+        serializer = ReviewSerializer(review, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
