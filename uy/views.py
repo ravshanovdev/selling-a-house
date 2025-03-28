@@ -44,14 +44,13 @@ class GetScheduleByCategoryIDApiView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, pk):
-        category = Category.objects.get(pk=pk)
 
-        schedule = Schedule.objects.filter(category=category).all()
+        schedules = Schedule.objects.select_related('category').filter(category__pk=pk)
 
-        if not schedule:
+        if not schedules:
             return Response({"error": "Schedule Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ScheduleSerializer(schedule, many=True)
+        serializer = ScheduleSerializer(schedules, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
